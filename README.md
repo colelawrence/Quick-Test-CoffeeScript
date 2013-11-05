@@ -10,4 +10,4 @@ This editor is more functional because it embeds compiled javascript directly in
 
 The editor comes with a prebuilt `Say(object)` function that will print the `oject.toString()` to an output area on the webpage.
 
-[Launch App](http://ide.zombiehippie.com/Quick-Test-CoffeeScript/)
+[Launch App](http://zombiehippie.com/ide/Quick-Test-CoffeeScript/)
