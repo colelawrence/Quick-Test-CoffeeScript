@@ -1,0 +1,12 @@
+[submodule "lib/CodeMirror"]
+	path = lib/CodeMirror
+	url = https://github.com/marijnh/CodeMirror.git
+[submodule "lib/Touch-Splitter-jQuery"]
+	path = lib/Touch-Splitter-jQuery
+	url = https://github.com/ZombieHippie/Touch-Splitter-jQuery.git
+[submodule "lib/jquery"]
+	path = lib/jquery
+	url = https://github.com/jquery/jquery.git
+[submodule "lib/coffee-script"]
+	path = lib/coffee-script
+	url = https://github.com/jashkenas/coffee-script.git
