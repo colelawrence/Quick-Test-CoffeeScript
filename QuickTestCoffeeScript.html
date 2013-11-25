@@ -68,6 +68,7 @@
 			<script src="lib/jquery/dist/jquery.min.js"></script>
 			<script src="lib/Touch-Splitter-jQuery/src/jquery.touchsplitter.js"></script>
 			<script src="lib/coffee-script/extras/coffee-script.js"></script>
+    		<script src="lib/CodeMirror/addon/edit/closebrackets.js"></script>
 			<script type="text/coffeescript">
 				console.log "CoffeeScript"
 				window.editor = {}
@@ -81,9 +82,9 @@
 				editor.coffeescript = CodeMirror.fromTextArea document.getElementById("cm-coffeescript"), {
 					mode: "coffeescript"
 					tabMode: "indent"
-					#theme: "solarized light"
 					theme: "elegant"
 					lineNumbers: true
+					autoCloseBrackets: true
 					extraKeys:
 	    	    		"Ctrl-Enter": (cm)->
 	    	    	  		preview(cm)
