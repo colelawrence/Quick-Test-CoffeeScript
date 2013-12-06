@@ -43,8 +43,8 @@
 	<body>
 		<div class="header">
 			<div class="title">Try CoffeeScript</div>
-			<div class="action" onclick="run()">Run</div>
-			<div class="action" onclick="window.location.replace(window.location.href)">Refresh</div>
+			<div class="action" onclick="editor.run()">Run</div>
+			<div class="action" onclick="editor.refresh()">Refresh</div>
 			<div class="error" id="error"></div>
 		</div>
 		<div id="output-splitter">
@@ -63,9 +63,9 @@
 		</div>
 		<footer>
 			<script src="lib/CodeMirror/lib/codemirror.js"></script>
+			<script src="lib/jquery/dist/jquery.js"></script>
     		<script src="lib/CodeMirror/mode/javascript/javascript.js"></script>
     		<script src="lib/CodeMirror/mode/coffeescript/coffeescript.js"></script>
-			<script src="lib/jquery/dist/jquery.min.js"></script>
 			<script src="lib/Touch-Splitter-jQuery/src/jquery.touchsplitter.js"></script>
 			<script src="lib/coffee-script/extras/coffee-script.js"></script>
     		<script src="lib/CodeMirror/addon/edit/closebrackets.js"></script>
@@ -85,6 +85,7 @@
 					theme: "elegant"
 					lineNumbers: true
 					autoCloseBrackets: true
+					autofocus: true
 					extraKeys:
 	    	    		"Ctrl-Enter": (cm)->
 	    	    	  		preview(cm)
@@ -107,18 +108,23 @@
 							message = "Error on line #{location.first_line + 1}: #{message}"
 						$('#error').text(message).show()
 				
-
-				editor.coffeescript.on "change", -> editor.compile()
-
-				editor.compile()
-			</script>
-			<script>
-				run = function(){
-					var script = document.createElement("script");
+				editor.run = ->
+					script = document.createElement("script");
 					script.innerHTML = editor.compiledJS
 
 					$("#compilation").html("").append(script)
-				}
+
+				editor.refresh = ->
+					if Storage?
+						sessionStorage.code = editor.coffeescript.getValue()
+
+				editor.coffeescript.on "change", -> editor.compile()
+
+				if Storage?
+					editor.coffeescript.setValue sessionStorage.code
+				editor.compile()
+			</script>
+			<script>
 				Say = function(o){
 					console.log(o)
 					$("#info").append(o.toString() + "\n")
