@@ -11,5 +11,5 @@ This editor is more functional because it embeds compiled javascript directly in
 The editor comes with a prebuilt `Say(object)` function that will print the `oject.toString()` to an output area on the webpage.
 
 <p align="center">
-  <a href="http://coffee.zombiehippie.com/">Launch Quick-Test-CoffeeScript</a>
+  <a href="http://zombiehippie.github.io/Quick-Test-CoffeeScript/">Launch Quick-Test-CoffeeScript</a>
 </p>
