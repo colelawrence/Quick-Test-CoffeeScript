@@ -43,8 +43,9 @@
 	<body>
 		<div class="header">
 			<div class="title">Try CoffeeScript</div>
-			<div class="action" onclick="editor.run()">Run</div>
-			<div class="action" onclick="editor.refresh()">Refresh</div>
+			<div class="action" onclick="editor.run">Run</div>
+			<div class="action" onclick="editor.refresh">Refresh</div>
+			<div class="action" onclick="editor.share">Share</div>
 			<div class="error" id="error"></div>
 		</div>
 		<div id="output-splitter">
@@ -64,14 +65,15 @@
 		<footer>
 			<script src="lib/CodeMirror/lib/codemirror.js"></script>
 			<script src="lib/jquery/dist/jquery.js"></script>
-    		<script src="lib/CodeMirror/mode/javascript/javascript.js"></script>
-    		<script src="lib/CodeMirror/mode/coffeescript/coffeescript.js"></script>
+    			<script src="lib/CodeMirror/mode/javascript/javascript.js"></script>
+    			<script src="lib/CodeMirror/mode/coffeescript/coffeescript.js"></script>
 			<script src="lib/Touch-Splitter-jQuery/src/jquery.touchsplitter.js"></script>
 			<script src="lib/coffee-script/extras/coffee-script.js"></script>
-    		<script src="lib/CodeMirror/addon/edit/closebrackets.js"></script>
+    			<script src="lib/CodeMirror/addon/edit/closebrackets.js"></script>
 			<script type="text/coffeescript">
 				console.log "CoffeeScript"
 				window.editor = {}
+
 				editor.outputSplitter = $("#output-splitter").verticalSplit()
 				editor.codeSplitter = $("#code-splitter").horizontalSplit()
 
@@ -87,9 +89,10 @@
 					autoCloseBrackets: true
 					autofocus: true
 					extraKeys:
-	    	    		"Ctrl-Enter": (cm)->
-	    	    	  		preview(cm)
+						"Ctrl-Enter": (cm)->
+							preview(cm)
 				}
+
 				editor.javascript = CodeMirror.fromTextArea document.getElementById("cm-javascript"), {
 					mode: "javascript"
 					#theme: "solarized dark"
@@ -107,21 +110,33 @@
 						if location?
 							message = "Error on line #{location.first_line + 1}: #{message}"
 						$('#error').text(message).show()
-				
+
 				editor.run = ->
 					script = document.createElement("script");
 					script.innerHTML = editor.compiledJS
 
 					$("#compilation").html("").append(script)
 
-				editor.refresh = ->
+				editor.store = () ->
 					if Storage?
 						sessionStorage.code = editor.coffeescript.getValue()
 
-				editor.coffeescript.on "change", -> editor.compile()
+				editor.refresh = ->
+					location.href = location.href.replace /#.+$/, ''
+
+				editor.coffeescript.on "change", ->
+					editor.compile()
+					editor.store()
+
+				editor.share = ->
+					location.href = '#' + encodeURIComponent editor.coffeescript.getValue()
 
 				if Storage?
 					editor.coffeescript.setValue sessionStorage.code
+
+				if location.href.match /#.+/
+					editor.coffeescript.setValue decodeURIComponent location.href.replace /^.+?#/, ''
+
 				editor.compile()
 			</script>
 			<script>
