@@ -36,19 +36,39 @@
 	.cm-s-solarized .CodeMirror-gutters{box-shadow: none}
 	.splitter-bar{
 		background-color: #f5f5f5;
-		z-index:999;
+		z-index:4;
 		position:relative;
 		box-sizing:border-box;
 	}
 
 	.error, .title, .action{font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;}
-	.header{width:100%;height:42px; position:relative; background-color: #13ACD3;overflow:hidden;}
+	.header{width:100%;height:42px; position:relative; background-color: #13ACD3;}
 	.action, .title {line-height:32px;padding:5px 33px;height:32px;float:left;color:white;margin-right: 2px}
 	.title {font-size: 19px; color:white;}
 	.action {background:rgba(0,0,0,.2);}
 	.action:hover {cursor: pointer}
 	.error {position:absolute; right:0;top:0;line-height:42px;padding:0 12px;background: #ff756f}
 	.code {font-family: monospace;}
+
+	.dropdown {
+		position:relative;
+		float:left;
+	}
+	.dropdown:hover ul {
+		z-index: 5;
+		display:block;
+	}
+	.dropdown ul {
+		position:absolute;
+		display:none;
+		list-style:none;
+		margin:0;
+		padding:0;
+		top: 42px;
+	}
+	.dropdown ul li {background-color: #13ACD3;padding: 10px;width: 190px;}
+	.dropdown ul li input {width:150px;padding:1px;margin:1px;}
+	.dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:10px;width:16px;}
 	</style>
 </head>
 <body>
@@ -56,6 +76,12 @@
 		<div class="title">Try CoffeeScript</div>
 		<div class="action" onclick="editor.run()">Run</div>
 		<div class="action" onclick="editor.refresh()">Refresh</div>
+		<div class="dropdown">
+			<span class="action">Add Library</span>
+			<ul>
+				<li><input type="text" placeholder="Add js/coffee Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
+			</ul>
+		</div>
 		<div class="action" onclick="editor.share()">Share</div>
 		<div class="error" id="error"></div>
 	</div>
@@ -96,6 +122,7 @@
 			editor.coffeescript = CodeMirror.fromTextArea document.getElementById("cm-coffeescript"), {
 				mode: "coffeescript"
 				tabMode: "indent"
+				useTabs: true
 				theme: "elegant"
 				styleSelectedText: true
 				lineNumbers: true
@@ -159,15 +186,79 @@
 					sessionStorage.code = editor.coffeescript.getValue()
 				else
 					return false
+			editor.storeLibraries = ->
+				if Storage?
+					localStorage.libraries = editor.getDistinctArray(editor.libraries).join ','
+				else
+					return false
 			editor.refresh = ->
 				location.href = location.href.replace /#.+$/, ''
 			editor.coffeescript.on "change", ->
 				editor.compile()
 				editor.store()
+			editor.libraries = []
+			editor.scriptsLoading = 0
+			editor.que = ()->
+				editor.scriptsLoading++
+				return (data)->
+					editor.scriptsLoading--
+					if editor.scriptsLoading is 0
+						editor.run()
+
+			editor.addLibrary = (siblingelement)->
+				urlInput = $(siblingelement.parentNode).find("input")
+				url = urlInput.val()
+				urlInput.val("")
+				editor.addLibraryFromUrl url
+
+			editor.addLibraryFromUrl = (url)->
+				editor.loadLibrary(url)
+				editor.libraries.push url
+				editor.libraries = editor.getDistinctArray editor.libraries
+				localStorage.libraries = editor.libraries.join(',')
+				libraryli = document.createElement 'li'
+				hex = Math.random() * 0xFFFFFF
+				libraryli.innerHTML = """<a id="lib#{hex}" href="#{url}">#{(url.match /([^\/]+\.js$)/)[1]}</a><span>-</span>"""
+				$('.dropdown ul').append(libraryli).find('span').click editor.remLibrary
+
+			editor.remLibrary = (event)->
+				liUrl = $(event.target).parent()
+				url = liUrl.find('a').attr('href')
+				liUrl.remove()
+				newLibs = []
+				for lib in editor.libraries
+					if lib isnt url
+						newLibs.push lib
+				editor.libraries = newLibs
+				editor.storeLibraries()
+				editor.refresh()
+
+			editor.loadLibrary = (libURL) ->
+				Say "<span><a href='#{libURL}'>#{libURL}</a> loaded.</span>"
+				$.ajax {
+					url: libURL
+					dataType: "script"
+					success: editor.que()
+				}
+
 			editor.share = ->
 				window.prompt "Link to share: (Ctrl-C, Enter)", location.href.replace(/#.+$/, '') + '#' + encodeURIComponent editor.coffeescript.getValue()
+			editor.getDistinctArray = (arr) ->
+				dups = {}
+				arr.filter (el)->
+					hash = el.valueOf()
+					isDup = dups[hash]
+					dups[hash] = true
+					return !isDup
+
 			if Storage? and sessionStorage.code
 				editor.coffeescript.setValue sessionStorage.code
+
+			if Storage? and localStorage.libraries
+				editor.libraries = editor.getDistinctArray localStorage.libraries.split ','
+				for libURL in editor.libraries
+					editor.addLibraryFromUrl(libURL)
+
 			if location.href.match /#.+/
 				editor.coffeescript.setValue decodeURIComponent location.href.replace /^.+?#/, ''
 				editor.refresh() if editor.store()
