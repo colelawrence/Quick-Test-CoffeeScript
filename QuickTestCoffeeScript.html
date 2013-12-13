@@ -18,6 +18,11 @@
 	.CodeMirror {line-height: 1.3em}
 	.CodeMirror-selected  { background-color: rgba(0,0,0,0.8) !important;}
 	.CodeMirror-selectedtext { color: white !important; text-decoration: none !important; font-style: normal !important; font-weight: normal !important;}
+	.cm-tab {
+		background-position: right;
+		background-repeat: no-repeat;
+	}
+	.CodeMirror-selectedtext .cm-tab { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2NDNDRjgyNjI5RjExRTM5RDJDRTFCOTg3NTNDOUU3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjQ2NDNDRjgzNjI5RjExRTM5RDJDRTFCOTg3NTNDOUU3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDY0M0NGODA2MjlGMTFFMzlEMkNFMUI5ODc1M0M5RTciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NDY0M0NGODE2MjlGMTFFMzlEMkNFMUI5ODc1M0M5RTciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6N/xw1AAAAdUlEQVR42mL8//8/w1AGTAxDHIx6gE5AEIgvAbEblP9/qHngPRDXAvFOIPZElmAEZuLvZBjIiBwKFMrD2IT0gAAHmhlAHcBSaIhgv/8QUAalweJDxfGCQPwbiOuhfLgHGIdYPQBKQj/Q88BoMTrqAQoAQIABAFQ3O9aohzjOAAAAAElFTkSuQmCC);}
 
 	.TouchSplitter.hTS{overflow:visible;}
 	.TouchSplitter .splitter-bar{opacity:0;}
@@ -65,9 +70,17 @@
 		padding:0;
 		top: 42px;
 	}
-	.dropdown ul li {background-color: #13ACD3;padding: 10px;width: 190px;}
+	.dropdown ul li {background-color: #13ACD3;padding: 10px;width: 200px;}
 	.dropdown ul li input {width:150px;padding:1px;margin:1px;}
-	.dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:10px;width:16px;}
+	.dropdown ul li span:hover {background: #095A6F;}
+	.dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:5px;
+width: 13px;
+background: #067794;
+color: #FFF;
+line-height: 13px;
+display: block;
+float: right;
+text-align: center;}
 	</style>
 </head>
 <body>
@@ -78,7 +91,7 @@
 		<div class="dropdown">
 			<span class="action">Add Library</span>
 			<ul>
-				<li><input type="text" placeholder="Add js/coffee Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
+				<li><input type="text" placeholder="Add js Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
 			</ul>
 		</div>
 		<div class="action" onclick="editor.share()">Share</div>
@@ -122,6 +135,8 @@
 				mode: "coffeescript"
 				tabMode: "indent"
 				useTabs: true
+				indentWithTabs: true
+				indentUnit:4
 				theme: "elegant"
 				styleSelectedText: true
 				lineNumbers: true
@@ -199,10 +214,14 @@
 			editor.scriptsLoading = 0
 			editor.que = ()->
 				editor.scriptsLoading++
-				return (data)->
+				return (success, url)->
 					editor.scriptsLoading--
+					if success
+						Say "<span style='color:green'><a href='#{url}'>#{url}</a> loaded.</span>"
+					else
+						Say "<span style='color:red'><a href='#{url}'>#{url}</a> failed to load.</span>"
 					if editor.scriptsLoading is 0
-						editor.run()
+						Say "All scripts are loaded"
 
 			editor.addLibrary = (siblingelement)->
 				urlInput = $(siblingelement.parentNode).find("input")
@@ -217,7 +236,12 @@
 				localStorage.libraries = editor.libraries.join(',')
 				libraryli = document.createElement 'li'
 				hex = Math.random() * 0xFFFFFF
-				libraryli.innerHTML = """<a id="lib#{hex}" href="#{url}">#{(url.match /([^\/]+\.js$)/)[1]}</a><span>-</span>"""
+				libraryli.innerHTML = """
+					<a id='lib#{hex.toString()}' href='#{url}'>
+						#{(url.match /([^\/]+\.js$)/)[1]}
+					</a>
+					<span>-</span>
+				"""
 				$('.dropdown ul').append(libraryli).find('span').click editor.remLibrary
 
 			editor.remLibrary = (event)->
@@ -233,12 +257,12 @@
 				editor.refresh()
 
 			editor.loadLibrary = (libURL) ->
-				Say "<span><a href='#{libURL}'>#{libURL}</a> loaded.</span>"
-				$.ajax {
-					url: libURL
-					dataType: "script"
-					success: editor.que()
-				}
+				que = editor.que()
+				$.getScript(libURL).done(()->
+					que(true,libURL)
+				).fail () ->
+					console.log arguments
+					que(false,libURL)
 
 			editor.share = ->
 				window.prompt "Link to share: (Ctrl-C, Enter)", location.href.replace(/#.+$/, '') + '#' + encodeURIComponent editor.coffeescript.getValue()
@@ -267,6 +291,9 @@
 			Say = function(o){
 				console.log(o)
 				$("#info").append(o.toString() + "\n")
+			}
+			Clear = function(){
+				$("#info").html('')
 			}
 		</script>
 	</footer>
