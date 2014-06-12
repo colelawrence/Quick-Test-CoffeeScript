@@ -1,3 +1,2 @@
 *.log
-./temp.min.js
 node_modules

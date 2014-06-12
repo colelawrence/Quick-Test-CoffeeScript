@@ -43,7 +43,7 @@ task 'build', 'Build Quick-Test-CoffeeScript into a single html file',(options)-
       fs.readFile('./temp.min.js', 'utf8', (err, minijs)->
         if err
           return console.log err
-        data = data.replace /(<\/footer>)/, """<script>#{minijs}</script>$1"""
+        data = data.replace /<\/footer>/, """<script src="temp.min.js"></script></footer>"""
         writeIndexHtml(data)
       )
   )
