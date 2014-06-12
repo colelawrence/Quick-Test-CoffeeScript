@@ -16,7 +16,7 @@
 	}
 	/* Styles that I like in ACE and Sublime */
 	.CodeMirror {font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;}
-	.CodeMirror {line-height: 1.3em}
+	.CodeMirror {line-height: 1.1em}
 	.CodeMirror-selected  { background-color: rgba(0,0,0,0.8) !important;}
 	.CodeMirror-selectedtext { color: white !important; text-decoration: none !important; font-style: normal !important; font-weight: normal !important;}
 	.cm-tab {
@@ -75,13 +75,16 @@
 	.dropdown ul li input {width:150px;padding:1px;margin:1px;}
 	.dropdown ul li span:hover {background: #095A6F;}
 	.dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:5px;
-width: 13px;
-background: #067794;
-color: #FFF;
-line-height: 13px;
-display: block;
-float: right;
-text-align: center;}
+		color: #FFF;
+		display: block;
+		background: #067794;
+		text-align: center;
+	}
+	.dropdown.libraries ul li span {
+		line-height: 13px;
+		float: right;
+		width: 13px;		
+	}
 	</style>
 </head>
 <body>
@@ -89,10 +92,17 @@ text-align: center;}
 		<div class="title">Try CoffeeScript</div>
 		<div class="action" onclick="editor.run()">Run</div>
 		<div class="action" onclick="editor.refresh()">Refresh</div>
-		<div class="dropdown">
+		<div class="dropdown libraries">
 			<span class="action">Add Library</span>
 			<ul>
 				<li><input type="text" placeholder="Add js Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
+			</ul>
+		</div>
+		<div class="dropdown premade">
+			<span class="action">Premade</span>
+			<ul>
+				<li><span onclick="editor.setPremade(this.innerText)">Fruit Class</span></li>
+				<li><span onclick="editor.setPremade(this.innerText)">Extending Fruit Class</span></li>
 			</ul>
 		</div>
 		<div class="action" onclick="editor.share()">Share</div>
@@ -259,6 +269,7 @@ text-align: center;}
 				urlInput.val("")
 				editor.addLibraryFromUrl url
 
+
 			editor.addLibraryFromUrl = (url)->
 				editor.loadLibrary(url)
 				editor.libraries.push url
@@ -272,7 +283,7 @@ text-align: center;}
 					</a>
 					<span>-</span>
 				"""
-				$('.dropdown ul').append(libraryli).find('span').click editor.remLibrary
+				$('.dropdown.libraries ul').append(libraryli).find('span').click editor.remLibrary
 
 			editor.remLibrary = (event)->
 				liUrl = $(event.target).parent()
@@ -304,6 +315,47 @@ text-align: center;}
 					dups[hash] = true
 					return !isDup
 
+			editor.setPremade = (premadeName) ->
+				@coffeescript.setValue(premade[premadeName])
+			premade = {
+				"Fruit Class":"""
+class Fruit
+  constructor: (@name) ->
+
+  eat: ->
+    Say \"I\'m eating \#{@name}\"
+
+apple = new Fruit(\"Apple\")
+
+apple.eat()
+"""
+				"Extending Fruit Class": """
+class Fruit
+  constructor: (@name) ->
+
+  eat: ->
+    Say \"I\'m eating \#{@name}\"
+
+class ColoredFruit extends Fruit
+  constructor: (name, @color) ->
+    super(name)
+
+  observe: ->
+    Say \"I\'m a \#{@color} \#{@name}\"
+
+  eatIfColor: (colorYouLike) ->
+    if @color is colorYouLike
+      @eat()
+    else
+      Say (\"I don\'t like \#{@name}, because they are \#{@color}\")
+
+apple = new ColoredFruit(\"Apple\", \"red\")
+
+apple.observe()
+
+apple.eatIfColor(\"red\")
+"""
+			}
 			if Storage? and sessionStorage.code
 				editor.coffeescript.setValue sessionStorage.code
 
