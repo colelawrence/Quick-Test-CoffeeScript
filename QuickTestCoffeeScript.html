@@ -124,19 +124,47 @@ text-align: center;}
 			console.log "CoffeeScript"
 			window.editor = {}
 
-			editor.outputSplitter = $("#output-splitter").verticalSplit()
-			editor.codeSplitter = $("#code-splitter").horizontalSplit()
+			editor.outputSplitter = $("#output-splitter").touchSplit({orientation:"vertical"})
+			editor.codeSplitter = $("#code-splitter").touchSplit()
 
 			editor.codeSplitter.on 'resize', (e) ->
 				editor.coffeescript.refresh()
 				editor.javascript.refresh()
-
+			checkToUseSpacesInsteadofTabs = (cm) ->
+				if(cm.getOption("indentWithTabs"))
+					return CodeMirror.Pass
+				indentUnit = cm.getOption("indentUnit")
+				getYoSpaceCount = (head) ->
+					# Use preceding to determine what room is taken by tabs
+					preceding = cm.getRange {line:head.line, ch:0}, head
+					tabCount = 0
+					tabreg = /\t/g
+					while(tabreg.exec preceding)
+						tabCount++
+					return indentUnit - (head.ch + tabCount*(indentUnit - 1)) % indentUnit
+				makeYoSpaces = (spaceCount) ->
+					spaces = ""
+					for [1..spaceCount]
+						spaces += " "
+					return spaces
+				putYoSpacesHere = (range) ->
+					{anchor, head} = range
+					if anchor.line isnt head.line or anchor.ch isnt head.ch
+						for line in [anchor.line..head.line]
+							curLine = cm.getLine(line)
+							curPos = {line, ch:0}
+							cm.replaceRange makeYoSpaces(indentUnit), curPos, curPos
+						#anchor.ch += indentUnit
+						#head.ch += indentUnit
+					else
+						cm.replaceRange makeYoSpaces(getYoSpaceCount(head)), anchor, head
+				cm.doc.sel.ranges.forEach putYoSpacesHere
 			editor.coffeescript = CodeMirror.fromTextArea document.getElementById("cm-coffeescript"), {
 				mode: "coffeescript"
 				tabMode: "indent"
 				useTabs: true
-				indentWithTabs: true
-				indentUnit:4
+				indentWithTabs: false
+				indentUnit: 2
 				theme: "elegant"
 				styleSelectedText: true
 				lineNumbers: true
@@ -144,6 +172,7 @@ text-align: center;}
 				showCursorWhenSelecting: true
 				autofocus: true
 				extraKeys:
+					"Tab" : checkToUseSpacesInsteadofTabs
 					"Ctrl-Enter": (cm)->
 						preview(cm)
 			}
