@@ -1,0 +1,330 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<title>Quick Test CoffeeScript</title>
+	<link rel="stylesheet" href="lib/CodeMirror/lib/codemirror.css">
+	<link rel="stylesheet" href="lib/CodeMirror/theme/elegant.css">
+	<link rel="stylesheet" href="lib/Touch-Splitter-jQuery/src/touchsplitter.css">
+	<style id="style" type="text/css" media="screen">
+	html,body,#code-splitter,.CodeMirror{
+		width:100%;
+		height:100%;
+		margin:0;
+	}
+	/* Styles that I like in ACE and Sublime */
+	.CodeMirror {font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;}
+	.CodeMirror {line-height: 1.3em}
+	.CodeMirror-selected  { background-color: rgba(0,0,0,0.8) !important;}
+	.CodeMirror-selectedtext { color: white !important; text-decoration: none !important; font-style: normal !important; font-weight: normal !important;}
+	.cm-tab {
+		background-position: right;
+		background-repeat: no-repeat;
+	}
+	.CodeMirror-selectedtext .cm-tab { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2NDNDRjgyNjI5RjExRTM5RDJDRTFCOTg3NTNDOUU3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjQ2NDNDRjgzNjI5RjExRTM5RDJDRTFCOTg3NTNDOUU3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDY0M0NGODA2MjlGMTFFMzlEMkNFMUI5ODc1M0M5RTciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NDY0M0NGODE2MjlGMTFFMzlEMkNFMUI5ODc1M0M5RTciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6N/xw1AAAAdUlEQVR42mL8//8/w1AGTAxDHIx6gE5AEIgvAbEblP9/qHngPRDXAvFOIPZElmAEZuLvZBjIiBwKFMrD2IT0gAAHmhlAHcBSaIhgv/8QUAalweJDxfGCQPwbiOuhfLgHGIdYPQBKQj/Q88BoMTrqAQoAQIABAFQ3O9aohzjOAAAAAElFTkSuQmCC);}
+
+	.TouchSplitter.hTS{overflow:visible;}
+	.TouchSplitter .splitter-bar{opacity:0;}
+	.CodeMirror{box-shadow:0 0 12px rgba(0,0,0,0.2);}
+
+	.CodeMirror:hover{cursor:text;}
+	.CodeMirror-gutters:hover{cursor:default;}
+	#output-splitter {
+		position:absolute;
+		top:42px;
+		bottom:0;
+		left:0;
+		right:0;
+	}
+	.cm-s-solarized .CodeMirror-gutters{box-shadow: none}
+	.splitter-bar{
+		background-color: #f5f5f5;
+		z-index:4;
+		position:relative;
+		box-sizing:border-box;
+	}
+
+	.error, .title, .action{font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;}
+	.header{width:100%;height:42px; position:relative; background-color: #13ACD3;}
+	.action, .title {line-height:32px;padding:5px 33px;height:32px;float:left;color:white;margin-right: 2px}
+	.title {font-size: 19px; color:white;}
+	.action {background:rgba(0,0,0,.2);}
+	.action:hover {cursor: pointer}
+	.error {position:absolute; right:0;top:0;line-height:42px;padding:0 12px;background: #ff756f}
+	.code {font-family: monospace;}
+
+	.dropdown {
+		position:relative;
+		float:left;
+	}
+	.dropdown:hover ul {
+		z-index: 5;
+		display:block;
+	}
+	.dropdown ul {
+		position:absolute;
+		display:none;
+		list-style:none;
+		margin:0;
+		padding:0;
+		top: 42px;
+	}
+	.dropdown ul li {background-color: #13ACD3;padding: 10px;width: 200px;}
+	.dropdown ul li input {width:150px;padding:1px;margin:1px;}
+	.dropdown ul li span:hover {background: #095A6F;}
+	.dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:5px;
+width: 13px;
+background: #067794;
+color: #FFF;
+line-height: 13px;
+display: block;
+float: right;
+text-align: center;}
+	</style>
+</head>
+<body>
+	<div class="header">
+		<div class="title">Try CoffeeScript</div>
+		<div class="action" onclick="editor.run()">Run</div>
+		<div class="action" onclick="editor.refresh()">Refresh</div>
+		<div class="dropdown">
+			<span class="action">Add Library</span>
+			<ul>
+				<li><input type="text" placeholder="Add js Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
+			</ul>
+		</div>
+		<div class="action" onclick="editor.share()">Share</div>
+		<div class="error" id="error"></div>
+	</div>
+	<div id="output-splitter">
+		<div id="code-splitter">
+			<div>
+				<textarea id="cm-coffeescript" name="code" rows="5">Say "Hello CoffeeScript"</textarea>
+			</div>
+			<div>
+				<textarea id="cm-javascript" name="code" rows="5"></textarea>
+			</div>
+		</div>
+		<div id="output">
+			<div id="compilation"></div>
+			<pre id="info"></pre>
+		</div>
+	</div>
+	<footer>
+		<script src="lib/CodeMirror/lib/codemirror.js"></script>
+		<script src="lib/jquery/dist/jquery.js"></script>
+		<script src="lib/CodeMirror/mode/javascript/javascript.js"></script>
+		<script src="lib/CodeMirror/mode/coffeescript/coffeescript.js"></script>
+		<script src="lib/Touch-Splitter-jQuery/src/jquery.touchsplitter.js"></script>
+		<script src="lib/coffee-script/extras/coffee-script.js"></script>
+		<script src="lib/CodeMirror/addon/edit/closebrackets.js"></script>
+		<script src="lib/CodeMirror/addon/selection/mark-selection.js"></script>
+		<script type="text/coffeescript">
+			console.log "CoffeeScript"
+			window.editor = {}
+
+			editor.outputSplitter = $("#output-splitter").touchSplit({orientation:"vertical"})
+			editor.codeSplitter = $("#code-splitter").touchSplit()
+
+			editor.codeSplitter.on 'resize', (e) ->
+				editor.coffeescript.refresh()
+				editor.javascript.refresh()
+			checkToUseSpacesInsteadofTabs = (cm) ->
+				if(cm.getOption("indentWithTabs"))
+					return CodeMirror.Pass
+				indentUnit = cm.getOption("indentUnit")
+				getYoSpaceCount = (head) ->
+					# Use preceding to determine what room is taken by tabs
+					preceding = cm.getRange {line:head.line, ch:0}, head
+					tabCount = 0
+					tabreg = /\t/g
+					while(tabreg.exec preceding)
+						tabCount++
+					return indentUnit - (head.ch + tabCount*(indentUnit - 1)) % indentUnit
+				makeYoSpaces = (spaceCount) ->
+					spaces = ""
+					for [1..spaceCount]
+						spaces += " "
+					return spaces
+				putYoSpacesHere = (range) ->
+					{anchor, head} = range
+					if anchor.line isnt head.line or anchor.ch isnt head.ch
+						for line in [anchor.line..head.line]
+							curLine = cm.getLine(line)
+							curPos = {line, ch:0}
+							cm.replaceRange makeYoSpaces(indentUnit), curPos, curPos
+						#anchor.ch += indentUnit
+						#head.ch += indentUnit
+					else
+						cm.replaceRange makeYoSpaces(getYoSpaceCount(head)), anchor, head
+				cm.doc.sel.ranges.forEach putYoSpacesHere
+			editor.coffeescript = CodeMirror.fromTextArea document.getElementById("cm-coffeescript"), {
+				mode: "coffeescript"
+				tabMode: "indent"
+				useTabs: true
+				indentWithTabs: false
+				indentUnit: 2
+				theme: "elegant"
+				styleSelectedText: true
+				lineNumbers: true
+				autoCloseBrackets: true
+				showCursorWhenSelecting: true
+				autofocus: true
+				extraKeys:
+					"Tab" : checkToUseSpacesInsteadofTabs
+					"Ctrl-Enter": (cm)->
+						preview(cm)
+			}
+			editor.javascript = CodeMirror.fromTextArea document.getElementById("cm-javascript"), {
+				mode: "javascript"
+				styleSelectedText: true
+				showCursorWhenSelecting: true
+				cursorBlinkRate: 0
+				readOnly: true
+			}
+			editor.compile = ->
+				source = editor.coffeescript.doc.getValue()
+				editor.compiledJS = ""
+				try
+					editor.compiledJS = CoffeeScript.compile source, bare: on
+					editor.javascript.doc.setValue(editor.compiledJS)
+					$('#error').hide()
+					editor.errorHandler null
+				catch {location, message}
+					if location?
+						message = "Error on line #{location.first_line + 1}: #{message}"
+					$('#error').text(message).show()
+					editor.errorHandler {location, message}
+			editor.currentError = null
+			editor.errorHandler = (err) ->
+				editor.currentError.clear() if editor.currentError and editor.currentError.clear
+				editor.currentError = null
+				if err
+					err = err.location
+					if err.first_column is err.last_column and err.first_line is err.last_line
+						editor.currentError = editor.coffeescript.setBookmark(
+							{line:err.first_line, ch:err.first_column},
+							{widget:editor.makeWidget()}
+						)
+					else	
+						editor.currentError = editor.coffeescript.markText(
+							{line:err.first_line, ch:err.first_column},
+							{line:err.last_line,  ch:err.last_column},
+							{className:"cm-error"}
+						)
+			editor.makeWidget= ->
+				widget = document.createElement("span")
+				widget.style.borderLeft = "1px solid rgba(255,50,50,.6)"
+				widget.style.borderRight = "1px solid rgba(255,120,120,.6)"
+				widget.style.marginLeft = "-1px"
+				widget.style.marginRight = "-1px"
+				widget
+			editor.run = ->
+				script = document.createElement("script");
+				script.innerHTML = editor.compiledJS
+				$("#compilation").html("").append(script)
+			editor.store = ->
+				if Storage?
+					sessionStorage.code = editor.coffeescript.getValue()
+				else
+					return false
+			editor.storeLibraries = ->
+				if Storage?
+					localStorage.libraries = editor.getDistinctArray(editor.libraries).join ','
+				else
+					return false
+			editor.refresh = ->
+				location.href = location.href.replace /#.+$/, ''
+			editor.coffeescript.on "change", ->
+				editor.compile()
+				editor.store()
+			editor.libraries = []
+			editor.scriptsLoading = 0
+			editor.que = ()->
+				editor.scriptsLoading++
+				return (success, url)->
+					editor.scriptsLoading--
+					if success
+						Say "<span style='color:green'><a href='#{url}'>#{url}</a> loaded.</span>"
+					else
+						Say "<span style='color:red'><a href='#{url}'>#{url}</a> failed to load.</span>"
+					if editor.scriptsLoading is 0
+						Say "All scripts are loaded"
+
+			editor.addLibrary = (siblingelement)->
+				urlInput = $(siblingelement.parentNode).find("input")
+				url = urlInput.val()
+				urlInput.val("")
+				editor.addLibraryFromUrl url
+
+			editor.addLibraryFromUrl = (url)->
+				editor.loadLibrary(url)
+				editor.libraries.push url
+				editor.libraries = editor.getDistinctArray editor.libraries
+				localStorage.libraries = editor.libraries.join(',')
+				libraryli = document.createElement 'li'
+				hex = Math.random() * 0xFFFFFF
+				libraryli.innerHTML = """
+					<a id='lib#{hex.toString()}' href='#{url}'>
+						#{(url.match /([^\/]+\.js$)/)[1]}
+					</a>
+					<span>-</span>
+				"""
+				$('.dropdown ul').append(libraryli).find('span').click editor.remLibrary
+
+			editor.remLibrary = (event)->
+				liUrl = $(event.target).parent()
+				url = liUrl.find('a').attr('href')
+				liUrl.remove()
+				newLibs = []
+				for lib in editor.libraries
+					if lib isnt url
+						newLibs.push lib
+				editor.libraries = newLibs
+				editor.storeLibraries()
+				editor.refresh()
+
+			editor.loadLibrary = (libURL) ->
+				que = editor.que()
+				$.getScript(libURL).done(()->
+					que(true,libURL)
+				).fail () ->
+					console.log arguments
+					que(false,libURL)
+
+			editor.share = ->
+				window.prompt "Link to share: (Ctrl-C, Enter)", location.href.replace(/#.+$/, '') + '#' + encodeURIComponent editor.coffeescript.getValue()
+			editor.getDistinctArray = (arr) ->
+				dups = {}
+				arr.filter (el)->
+					hash = el.valueOf()
+					isDup = dups[hash]
+					dups[hash] = true
+					return !isDup
+
+			if Storage? and sessionStorage.code
+				editor.coffeescript.setValue sessionStorage.code
+
+			if Storage? and localStorage.libraries
+				editor.libraries = editor.getDistinctArray localStorage.libraries.split ','
+				for libURL in editor.libraries
+					editor.addLibraryFromUrl(libURL)
+
+			if location.href.match /#.+/
+				editor.coffeescript.setValue decodeURIComponent location.href.replace /^.+?#/, ''
+				editor.refresh() if editor.store()
+			editor.compile()
+		</script>
+		<script>
+			Say = function(o){
+				console.log(o)
+				$("#info").append(o.toString() + "\n")
+			}
+			Clear = function(){
+				$("#info").html('')
+			}
+		</script>
+	</footer>
+</body>
+</html>
