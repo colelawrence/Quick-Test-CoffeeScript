@@ -1,324 +1,341 @@
 <!DOCTYPE html>
 <html>
 <head>
-	<meta charset="utf-8">
-	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>Quick Test CoffeeScript</title>
-<style> .CodeMirror { font-family:monospace; height:300px; }.CodeMirror-scroll { overflow:auto; } .CodeMirror-lines {padding:4px 0;  }.CodeMirror pre {padding:0 4px;  }.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {background-color:white;  } .CodeMirror-gutters {border-right:1px solid #ddd; background-color:#f7f7f7; white-space:nowrap; }.CodeMirror-linenumbers {}.CodeMirror-linenumber {padding:0 3px 0 5px; min-width:20px; text-align:right; color:#999; -moz-box-sizing:content-box; box-sizing:content-box; } .CodeMirror div.CodeMirror-cursor {border-left:1px solid black; } .CodeMirror div.CodeMirror-secondarycursor {border-left:1px solid silver; }.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {width:auto; border:0; background:#7e7; } div.CodeMirror-overwrite div.CodeMirror-cursor {}.cm-tab {display:inline-block; }.CodeMirror-ruler {border-left:1px solid #ccc; position:absolute; } .cm-s-default .cm-keyword {color:#708;}.cm-s-default .cm-atom {color:#219;}.cm-s-default .cm-number {color:#164;}.cm-s-default .cm-def {color:#00f;}.cm-s-default .cm-variable, .cm-s-default .cm-punctuation, .cm-s-default .cm-property, .cm-s-default .cm-operator {}.cm-s-default .cm-variable-2 {color:#05a;}.cm-s-default .cm-variable-3 {color:#085;}.cm-s-default .cm-comment {color:#a50;}.cm-s-default .cm-string {color:#a11;}.cm-s-default .cm-string-2 {color:#f50;}.cm-s-default .cm-meta {color:#555;}.cm-s-default .cm-qualifier {color:#555;}.cm-s-default .cm-builtin {color:#30a;}.cm-s-default .cm-bracket {color:#997;}.cm-s-default .cm-tag {color:#170;}.cm-s-default .cm-attribute {color:#00c;}.cm-s-default .cm-header {color:blue;}.cm-s-default .cm-quote {color:#090;}.cm-s-default .cm-hr {color:#999;}.cm-s-default .cm-link {color:#00c;}.cm-negative {color:#d44;}.cm-positive {color:#292;}.cm-header, .cm-strong {font-weight:bold;}.cm-em {font-style:italic;}.cm-link {text-decoration:underline;}.cm-s-default .cm-error {color:#f00;}.cm-invalidchar {color:#f00;}div.CodeMirror span.CodeMirror-matchingbracket {color:#0f0;}div.CodeMirror span.CodeMirror-nonmatchingbracket {color:#f22;}.CodeMirror-activeline-background {background:#e8f2ff;}  .CodeMirror {line-height:1; position:relative; overflow:hidden; background:white; color:black; }.CodeMirror-scroll {  margin-bottom:-30px; margin-right:-30px; padding-bottom:30px; height:100%; outline:none;  position:relative; -moz-box-sizing:content-box; box-sizing:content-box; }.CodeMirror-sizer {position:relative; border-right:30px solid transparent; -moz-box-sizing:content-box; box-sizing:content-box; } .CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {position:absolute; z-index:6; display:none; }.CodeMirror-vscrollbar {right:0; top:0; overflow-x:hidden; overflow-y:scroll; }.CodeMirror-hscrollbar {bottom:0; left:0; overflow-y:hidden; overflow-x:scroll; }.CodeMirror-scrollbar-filler {right:0; bottom:0; }.CodeMirror-gutter-filler {left:0; bottom:0; }.CodeMirror-gutters {position:absolute; left:0; top:0; padding-bottom:30px; z-index:3; }.CodeMirror-gutter {white-space:normal; height:100%; -moz-box-sizing:content-box; box-sizing:content-box; padding-bottom:30px; margin-bottom:-32px; display:inline-block;  *zoom:1; *display:inline; }.CodeMirror-gutter-elt {position:absolute; cursor:default; z-index:4; }.CodeMirror-lines {cursor:text; }.CodeMirror pre { -moz-border-radius:0; -webkit-border-radius:0; border-radius:0; border-width:0; background:transparent; font-family:inherit; font-size:inherit; margin:0; white-space:pre; word-wrap:normal; line-height:inherit; color:inherit; z-index:2; position:relative; overflow:visible; }.CodeMirror-wrap pre {word-wrap:break-word; white-space:pre-wrap; word-break:normal; }.CodeMirror-linebackground {position:absolute; left:0; right:0; top:0; bottom:0; z-index:0; }.CodeMirror-linewidget {position:relative; z-index:2; overflow:auto; }.CodeMirror-widget {}.CodeMirror-wrap .CodeMirror-scroll {overflow-x:hidden; }.CodeMirror-measure {position:absolute; width:100%; height:0; overflow:hidden; visibility:hidden; }.CodeMirror-measure pre {position:static; }.CodeMirror div.CodeMirror-cursor {position:absolute; border-right:none; width:0; }div.CodeMirror-cursors {visibility:hidden; position:relative; z-index:1; }.CodeMirror-focused div.CodeMirror-cursors {visibility:visible; }.CodeMirror-selected {background:#d9d9d9; }.CodeMirror-focused .CodeMirror-selected {background:#d7d4f0; }.CodeMirror-crosshair {cursor:crosshair; }.cm-searching {background:#ffa; background:rgba(255, 255, 0, .4); } .CodeMirror span {*vertical-align:text-bottom; } .cm-force-border {padding-right:.1px; }@media print { .CodeMirror div.CodeMirror-cursors {visibility:hidden; }} .cm-s-elegant span.cm-number, .cm-s-elegant span.cm-string, .cm-s-elegant span.cm-atom {color:#762;}.cm-s-elegant span.cm-comment {color:#262; font-style:italic; line-height:1em;}.cm-s-elegant span.cm-meta {color:#555; font-style:italic; line-height:1em;}.cm-s-elegant span.cm-variable {color:black;}.cm-s-elegant span.cm-variable-2 {color:#b11;}.cm-s-elegant span.cm-qualifier {color:#555;}.cm-s-elegant span.cm-keyword {color:#730;}.cm-s-elegant span.cm-builtin {color:#30a;}.cm-s-elegant span.cm-link {color:#762;}.cm-s-elegant span.cm-error {background-color:#fdd;}.cm-s-elegant .CodeMirror-activeline-background {background:#e8f2ff !important;}.cm-s-elegant .CodeMirror-matchingbracket {outline:1px solid grey; color:black !important;} .TouchSplitter.h-ts>div{height:100%;width:42%;width:calc(50% - .5em);}.TouchSplitter.v-ts>div{width:100%;height:42%;height:calc(50% - .5em);}.TouchSplitter>div {display:block; margin:0; padding:0; float:left;}.TouchSplitter.h-ts>div.splitter-bar {width:1em; cursor:col-resize}.TouchSplitter.v-ts>div.splitter-bar {height:1em;cursor:row-resize}.TouchSplitter>div.splitter-bar.dock>div {width:1em; height:1em; background-repeat:no-repeat; background-position:center;}.TouchSplitter, .TouchSplitter>div, .TouchSplitter>div.splitter-bar>div{position:relative; margin:0; padding:0; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none;}.TouchSplitter>div.test-calc{width:10px; width:calc(10px + 10px);}.TouchSplitter>div.test-em{width:1em;}.TouchSplitter>div.splitter-bar>div{width:1em;height:1em; position:relative; background-color:rgba(0,0,0,0.2); }.TouchSplitter.h-ts>div.splitter-bar>div{margin-top:-.5em; top:50%;}.TouchSplitter.v-ts>div.splitter-bar>div{margin-left:-.5em; left:50%;}</style>
-	
-	
-	
-	<style id="style" type="text/css" media="screen">
-	html,body,#code-splitter,.CodeMirror{
-		width:100%;
-		height:100%;
-		margin:0;
-	}
-	/* Styles that I like in ACE and Sublime */
-	.CodeMirror {font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', 'source-code-pro', monospace;}
-	.CodeMirror {line-height: 1.1em}
-	.CodeMirror-selected  { background-color: rgba(0,0,0,0.8) !important;}
-	.CodeMirror-selectedtext { color: white !important; text-decoration: none !important; font-style: normal !important; font-weight: normal !important;}
-	.cm-tab {
-		background-position: right;
-		background-repeat: no-repeat;
-	}
-	.CodeMirror-selectedtext .cm-tab { background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAADAAAAAMCAYAAAAkuj5RAAAAGXRFWHRTb2Z0d2FyZQBBZG9iZSBJbWFnZVJlYWR5ccllPAAAAyBpVFh0WE1MOmNvbS5hZG9iZS54bXAAAAAAADw/eHBhY2tldCBiZWdpbj0i77u/IiBpZD0iVzVNME1wQ2VoaUh6cmVTek5UY3prYzlkIj8+IDx4OnhtcG1ldGEgeG1sbnM6eD0iYWRvYmU6bnM6bWV0YS8iIHg6eG1wdGs9IkFkb2JlIFhNUCBDb3JlIDUuMC1jMDYwIDYxLjEzNDc3NywgMjAxMC8wMi8xMi0xNzozMjowMCAgICAgICAgIj4gPHJkZjpSREYgeG1sbnM6cmRmPSJodHRwOi8vd3d3LnczLm9yZy8xOTk5LzAyLzIyLXJkZi1zeW50YXgtbnMjIj4gPHJkZjpEZXNjcmlwdGlvbiByZGY6YWJvdXQ9IiIgeG1sbnM6eG1wPSJodHRwOi8vbnMuYWRvYmUuY29tL3hhcC8xLjAvIiB4bWxuczp4bXBNTT0iaHR0cDovL25zLmFkb2JlLmNvbS94YXAvMS4wL21tLyIgeG1sbnM6c3RSZWY9Imh0dHA6Ly9ucy5hZG9iZS5jb20veGFwLzEuMC9zVHlwZS9SZXNvdXJjZVJlZiMiIHhtcDpDcmVhdG9yVG9vbD0iQWRvYmUgUGhvdG9zaG9wIENTNSBXaW5kb3dzIiB4bXBNTTpJbnN0YW5jZUlEPSJ4bXAuaWlkOjQ2NDNDRjgyNjI5RjExRTM5RDJDRTFCOTg3NTNDOUU3IiB4bXBNTTpEb2N1bWVudElEPSJ4bXAuZGlkOjQ2NDNDRjgzNjI5RjExRTM5RDJDRTFCOTg3NTNDOUU3Ij4gPHhtcE1NOkRlcml2ZWRGcm9tIHN0UmVmOmluc3RhbmNlSUQ9InhtcC5paWQ6NDY0M0NGODA2MjlGMTFFMzlEMkNFMUI5ODc1M0M5RTciIHN0UmVmOmRvY3VtZW50SUQ9InhtcC5kaWQ6NDY0M0NGODE2MjlGMTFFMzlEMkNFMUI5ODc1M0M5RTciLz4gPC9yZGY6RGVzY3JpcHRpb24+IDwvcmRmOlJERj4gPC94OnhtcG1ldGE+IDw/eHBhY2tldCBlbmQ9InIiPz6N/xw1AAAAdUlEQVR42mL8//8/w1AGTAxDHIx6gE5AEIgvAbEblP9/qHngPRDXAvFOIPZElmAEZuLvZBjIiBwKFMrD2IT0gAAHmhlAHcBSaIhgv/8QUAalweJDxfGCQPwbiOuhfLgHGIdYPQBKQj/Q88BoMTrqAQoAQIABAFQ3O9aohzjOAAAAAElFTkSuQmCC);}
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Quick Test CoffeeScript</title>
+<style> .CodeMirror { font-family:monospace; height:300px; }.CodeMirror-scroll { overflow:auto; } .CodeMirror-lines {padding:4px 0;  }.CodeMirror pre {padding:0 4px;  }.CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {background-color:white;  } .CodeMirror-gutters {border-right:1px solid #ddd; background-color:#f7f7f7; white-space:nowrap; }.CodeMirror-linenumbers {}.CodeMirror-linenumber {padding:0 3px 0 5px; min-width:20px; text-align:right; color:#999; -moz-box-sizing:content-box; box-sizing:content-box; }.CodeMirror-guttermarker {color:black; }.CodeMirror-guttermarker-subtle {color:#999; } .CodeMirror div.CodeMirror-cursor {border-left:1px solid black; } .CodeMirror div.CodeMirror-secondarycursor {border-left:1px solid silver; }.CodeMirror.cm-keymap-fat-cursor div.CodeMirror-cursor {width:auto; border:0; background:#7e7; }.cm-animate-fat-cursor {width:auto; border:0; -webkit-animation:blink 1.06s steps(1) infinite; -moz-animation:blink 1.06s steps(1) infinite; animation:blink 1.06s steps(1) infinite; }@-moz-keyframes blink {0% {background:#7e7; }50% {background:none; }100% {background:#7e7; }}@-webkit-keyframes blink {0% {background:#7e7; }50% {background:none; }100% {background:#7e7; }}@keyframes blink {0% {background:#7e7; }50% {background:none; }100% {background:#7e7; }}.CodeMirror-focused div.CodeMirror-cursors.blinking {-moz-animation:CodeMirror-cursors 1.06s infinite; -webkit-animation:CodeMirror-cursors 1.06s infinite; animation:CodeMirror-cursors 1.06s infinite; }@-moz-keyframes CodeMirror-cursors {from,to,85%,15% {opacity:1}65%, 35% {opacity:0}}@-webkit-keyframes CodeMirror-cursors {from,to,85%,15% {opacity:1}65%, 35% {opacity:0}}@keyframes CodeMirror-cursors {from,to,85%,15% {opacity:1}65%, 35% {opacity:0}} div.CodeMirror-overwrite div.CodeMirror-cursor {}.cm-tab {display:inline-block; }.CodeMirror-ruler {border-left:1px solid #ccc; position:absolute; } .cm-s-default .cm-keyword {color:#708;}.cm-s-default .cm-atom {color:#219;}.cm-s-default .cm-number {color:#164;}.cm-s-default .cm-def {color:#00f;}.cm-s-default .cm-variable, .cm-s-default .cm-punctuation, .cm-s-default .cm-property, .cm-s-default .cm-operator {}.cm-s-default .cm-variable-2 {color:#05a;}.cm-s-default .cm-variable-3 {color:#085;}.cm-s-default .cm-comment {color:#a50;}.cm-s-default .cm-string {color:#a11;}.cm-s-default .cm-string-2 {color:#f50;}.cm-s-default .cm-meta {color:#555;}.cm-s-default .cm-qualifier {color:#555;}.cm-s-default .cm-builtin {color:#30a;}.cm-s-default .cm-bracket {color:#997;}.cm-s-default .cm-tag {color:#170;}.cm-s-default .cm-attribute {color:#00c;}.cm-s-default .cm-header {color:blue;}.cm-s-default .cm-quote {color:#090;}.cm-s-default .cm-hr {color:#999;}.cm-s-default .cm-link {color:#00c;}.cm-negative {color:#d44;}.cm-positive {color:#292;}.cm-header, .cm-strong {font-weight:bold;}.cm-em {font-style:italic;}.cm-link {text-decoration:underline;}.cm-s-default .cm-error {color:#f00;}.cm-invalidchar {color:#f00;} div.CodeMirror span.CodeMirror-matchingbracket {color:#0f0;}div.CodeMirror span.CodeMirror-nonmatchingbracket {color:#f22;}.CodeMirror-matchingtag {background:rgba(255, 150, 0, .3); }.CodeMirror-activeline-background {background:#e8f2ff;}  .CodeMirror {line-height:1; position:relative; overflow:hidden; background:white; color:black; }.CodeMirror-scroll {  margin-bottom:-30px; margin-right:-30px; padding-bottom:30px; height:100%; outline:none;  position:relative; -moz-box-sizing:content-box; box-sizing:content-box; }.CodeMirror-sizer {position:relative; border-right:30px solid transparent; -moz-box-sizing:content-box; box-sizing:content-box; } .CodeMirror-vscrollbar, .CodeMirror-hscrollbar, .CodeMirror-scrollbar-filler, .CodeMirror-gutter-filler {position:absolute; z-index:6; display:none; }.CodeMirror-vscrollbar {right:0; top:0; overflow-x:hidden; overflow-y:scroll; }.CodeMirror-hscrollbar {bottom:0; left:0; overflow-y:hidden; overflow-x:scroll; }.CodeMirror-scrollbar-filler {right:0; bottom:0; }.CodeMirror-gutter-filler {left:0; bottom:0; }.CodeMirror-gutters {position:absolute; left:0; top:0; padding-bottom:30px; z-index:3; }.CodeMirror-gutter {white-space:normal; height:100%; -moz-box-sizing:content-box; box-sizing:content-box; padding-bottom:30px; margin-bottom:-32px; display:inline-block;  *zoom:1; *display:inline; }.CodeMirror-gutter-elt {position:absolute; cursor:default; z-index:4; }.CodeMirror-lines {cursor:text; }.CodeMirror pre { -moz-border-radius:0; -webkit-border-radius:0; border-radius:0; border-width:0; background:transparent; font-family:inherit; font-size:inherit; margin:0; white-space:pre; word-wrap:normal; line-height:inherit; color:inherit; z-index:2; position:relative; overflow:visible; }.CodeMirror-wrap pre {word-wrap:break-word; white-space:pre-wrap; word-break:normal; }.CodeMirror-linebackground {position:absolute; left:0; right:0; top:0; bottom:0; z-index:0; }.CodeMirror-linewidget {position:relative; z-index:2; overflow:auto; }.CodeMirror-widget {}.CodeMirror-wrap .CodeMirror-scroll {overflow-x:hidden; }.CodeMirror-measure {position:absolute; width:100%; height:0; overflow:hidden; visibility:hidden; }.CodeMirror-measure pre {position:static; }.CodeMirror div.CodeMirror-cursor {position:absolute; border-right:none; width:0; }div.CodeMirror-cursors {visibility:hidden; position:relative; z-index:1; }.CodeMirror-focused div.CodeMirror-cursors {visibility:visible; }.CodeMirror-selected {background:#d9d9d9; }.CodeMirror-focused .CodeMirror-selected {background:#d7d4f0; }.CodeMirror-crosshair {cursor:crosshair; }.cm-searching {background:#ffa; background:rgba(255, 255, 0, .4); } .CodeMirror span {*vertical-align:text-bottom; } .cm-force-border {padding-right:.1px; }@media print { .CodeMirror div.CodeMirror-cursors {visibility:hidden; }} .cm-s-elegant span.cm-number, .cm-s-elegant span.cm-string, .cm-s-elegant span.cm-atom {color:#762;}.cm-s-elegant span.cm-comment {color:#262; font-style:italic; line-height:1em;}.cm-s-elegant span.cm-meta {color:#555; font-style:italic; line-height:1em;}.cm-s-elegant span.cm-variable {color:black;}.cm-s-elegant span.cm-variable-2 {color:#b11;}.cm-s-elegant span.cm-qualifier {color:#555;}.cm-s-elegant span.cm-keyword {color:#730;}.cm-s-elegant span.cm-builtin {color:#30a;}.cm-s-elegant span.cm-link {color:#762;}.cm-s-elegant span.cm-error {background-color:#fdd;}.cm-s-elegant .CodeMirror-activeline-background {background:#e8f2ff !important;}.cm-s-elegant .CodeMirror-matchingbracket {outline:1px solid grey; color:black !important;} .TouchSplitter.h-ts>div{height:100%;width:42%;width:calc(50% - .5em);}.TouchSplitter.v-ts>div{width:100%;height:42%;height:calc(50% - .5em);}.TouchSplitter>div {display:block; margin:0; padding:0; float:left;}.TouchSplitter.h-ts>div.splitter-bar {width:1em; cursor:col-resize}.TouchSplitter.v-ts>div.splitter-bar {height:1em;cursor:row-resize}.TouchSplitter>div.splitter-bar.dock>div {width:1em; height:1em; background-repeat:no-repeat; background-position:center;}.TouchSplitter, .TouchSplitter>div, .TouchSplitter>div.splitter-bar>div{position:relative; margin:0; padding:0; -webkit-user-select:none; -moz-user-select:none; -ms-user-select:none;}.TouchSplitter>div.test-calc{width:10px; width:calc(10px + 10px);}.TouchSplitter>div.test-em{width:1em;}.TouchSplitter>div.splitter-bar>div{width:1em;height:1em; position:relative; background-color:rgba(0,0,0,0.2); }.TouchSplitter.h-ts>div.splitter-bar>div{margin-top:-.5em; top:50%;}.TouchSplitter.v-ts>div.splitter-bar>div{margin-left:-.5em; left:50%;}</style>
+  
+  
+  
+  <style id="style" type="text/css" media="screen">
+  html,body,#code-splitter,.CodeMirror{
+    width:100%;
+    height:100%;
+    margin:0;
+  }
+  /* Styles that I like in ACE and Sublime */
+  .CodeMirror {
+    font-family: 'source-code-pro', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
+    font-size: 16px;
+    line-height: 1.3em;
+  }
+  .CodeMirror:hover {
+    cursor: text;
+  }
+  .CodeMirror .cm-matchhighlight:not(.CodeMirror-selectedtext) {
+    outline: 1px solid #bbb;
+  }
+  .CodeMirror-selected {
+    background-color: #111 !important;
+  }
+  .CodeMirror-selectedtext {
+    color: #eee !important;
+  }
+  .CodeMirror-focused div.CodeMirror-cursor {
+    /* Whatever your cursor color is: */
+    border-right: 1px solid black;
+  }
+  .TouchSplitter.hTS{overflow:visible;}
+  .TouchSplitter .splitter-bar{opacity:0;}
+  .CodeMirror{box-shadow:0 0 12px rgba(0,0,0,0.2);}
 
-	.TouchSplitter.hTS{overflow:visible;}
-	.TouchSplitter .splitter-bar{opacity:0;}
-	.CodeMirror{box-shadow:0 0 12px rgba(0,0,0,0.2);}
+  .CodeMirror:hover{cursor:text;}
+  .CodeMirror-gutters:hover{cursor:default;}
+  #output-splitter {
+    position:absolute;
+    top:42px;
+    bottom:0;
+    left:0;
+    right:0;
+  }
+  .cm-s-solarized .CodeMirror-gutters{box-shadow: none}
+  .splitter-bar{
+    background-color: #f5f5f5;
+    z-index:4;
+    position:relative;
+    box-sizing:border-box;
+  }
 
-	.CodeMirror:hover{cursor:text;}
-	.CodeMirror-gutters:hover{cursor:default;}
-	#output-splitter {
-		position:absolute;
-		top:42px;
-		bottom:0;
-		left:0;
-		right:0;
-	}
-	.cm-s-solarized .CodeMirror-gutters{box-shadow: none}
-	.splitter-bar{
-		background-color: #f5f5f5;
-		z-index:4;
-		position:relative;
-		box-sizing:border-box;
-	}
+  .error, .title, .action{font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;}
+  .header{width:100%;height:42px; position:relative; background-color: #13ACD3;}
+  .action, .title {line-height:32px;padding:5px 33px;height:32px;float:left;color:white;margin-right: 2px}
+  .title {font-size: 19px; color:white;}
+  .action {background:rgba(0,0,0,.2);}
+  .action:hover {cursor: pointer}
+  .error {position:absolute; right:0;top:0;line-height:42px;padding:0 12px;background: #ff756f}
+  .code {font-family: monospace;}
 
-	.error, .title, .action{font-family: "Helvetica Neue", "Lucida Grande", "Lucida Sans Unicode", Helvetica, Arial, sans-serif !important;}
-	.header{width:100%;height:42px; position:relative; background-color: #13ACD3;}
-	.action, .title {line-height:32px;padding:5px 33px;height:32px;float:left;color:white;margin-right: 2px}
-	.title {font-size: 19px; color:white;}
-	.action {background:rgba(0,0,0,.2);}
-	.action:hover {cursor: pointer}
-	.error {position:absolute; right:0;top:0;line-height:42px;padding:0 12px;background: #ff756f}
-	.code {font-family: monospace;}
-
-	.dropdown {
-		position:relative;
-		float:left;
-	}
-	.dropdown:hover ul {
-		z-index: 5;
-		display:block;
-	}
-	.dropdown ul {
-		position:absolute;
-		display:none;
-		list-style:none;
-		margin:0;
-		padding:0;
-		top: 42px;
-	}
-	.dropdown ul li {background-color: #13ACD3;padding: 10px;width: 200px;}
-	.dropdown ul li input {width:150px;padding:1px;margin:1px;}
-	.dropdown ul li span:hover {background: #095A6F;}
-	.dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:5px;
-		color: #FFF;
-		display: block;
-		background: #067794;
-		text-align: center;
-	}
-	.dropdown.libraries ul li span {
-		line-height: 13px;
-		float: right;
-		width: 13px;		
-	}
-	</style>
+  .dropdown {
+    position:relative;
+    float:left;
+  }
+  .dropdown:hover ul {
+    z-index: 5;
+    display:block;
+  }
+  .dropdown ul {
+    position:absolute;
+    display:none;
+    list-style:none;
+    margin:0;
+    padding:0;
+    top: 42px;
+  }
+  .dropdown ul li {background-color: #13ACD3;padding: 10px;width: 200px;}
+  .dropdown ul li input {width:150px;padding:1px;margin:1px;}
+  .dropdown ul li span:hover {background: #095A6F;}
+  .dropdown ul li span {font-weight:bold;cursor:pointer;margin:0;padding:5px;
+    color: #FFF;
+    display: block;
+    background: #067794;
+    text-align: center;
+  }
+  .dropdown.libraries ul li span {
+    line-height: 13px;
+    float: right;
+    width: 13px;    
+  }
+  </style>
 </head>
 <body>
-	<div class="header">
-		<div class="title">Try CoffeeScript</div>
-		<div class="action" onclick="editor.run()">Run</div>
-		<div class="action" onclick="editor.refresh()">Refresh</div>
-		<div class="dropdown libraries">
-			<span class="action">Add Library</span>
-			<ul>
-				<li><input type="text" placeholder="Add js Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
-			</ul>
-		</div>
-		<div class="dropdown premade">
-			<span class="action">Premade</span>
-			<ul>
-				<li><span onclick="editor.setPremade(this.innerText)">Fruit Class</span></li>
-				<li><span onclick="editor.setPremade(this.innerText)">Extending Fruit Class</span></li>
-			</ul>
-		</div>
-		<div class="action" onclick="editor.share()">Share</div>
-		<div class="error" id="error"></div>
-	</div>
-	<div id="output-splitter">
-		<div id="code-splitter">
-			<div>
-				<textarea id="cm-coffeescript" name="code" rows="5">Say "Hello CoffeeScript"</textarea>
-			</div>
-			<div>
-				<textarea id="cm-javascript" name="code" rows="5"></textarea>
-			</div>
-		</div>
-		<div id="output">
-			<div id="compilation"></div>
-			<pre id="info"></pre>
-		</div>
-	</div>
-	<footer>
-		
-		
-		
-		
-		
-		
-		
-		
-		<script type="text/coffeescript">
-			console.log "CoffeeScript"
-			window.editor = {}
+  <div class="header">
+    <div class="title">Try CoffeeScript</div>
+    <div class="action" onclick="editor.run()">Run</div>
+    <div class="action" onclick="editor.refresh()">Refresh</div>
+    <div class="dropdown libraries">
+      <span class="action">Add Library</span>
+      <ul>
+        <li><input type="text" placeholder="Add js Library URL"></input><span onclick="editor.addLibrary(this)">+</span></li>
+      </ul>
+    </div>
+    <div class="dropdown premade">
+      <span class="action">Premade</span>
+      <ul>
+        <li><span onclick="editor.setPremade(this.innerText)">Fruit Class</span></li>
+        <li><span onclick="editor.setPremade(this.innerText)">Extending Fruit Class</span></li>
+        <li><span onclick="editor.setPremade(this.innerText)">Array Iteration</span></li>
+      </ul>
+    </div>
+    <div class="action" onclick="editor.share()">Share</div>
+    <div class="error" id="error"></div>
+  </div>
+  <div id="output-splitter">
+    <div id="code-splitter">
+      <div>
+        <textarea id="cm-coffeescript" name="code" rows="5">Say "Hello CoffeeScript"</textarea>
+      </div>
+      <div>
+        <textarea id="cm-javascript" name="code" rows="5"></textarea>
+      </div>
+    </div>
+    <div id="output">
+      <div id="compilation"></div>
+      <pre id="info"></pre>
+    </div>
+  </div>
+  <footer>
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    <script type="text/coffeescript">
+      console.log "CoffeeScript"
+      window.editor = {}
 
-			editor.outputSplitter = $("#output-splitter").touchSplit({orientation:"vertical"})
-			editor.codeSplitter = $("#code-splitter").touchSplit()
+      editor.outputSplitter = $("#output-splitter").touchSplit({orientation:"vertical"})
+      editor.codeSplitter = $("#code-splitter").touchSplit()
 
-			editor.codeSplitter.on 'resize', (e) ->
-				editor.coffeescript.refresh()
-				editor.javascript.refresh()
-			checkToUseSpacesInsteadofTabs = (cm) ->
-				if(cm.getOption("indentWithTabs"))
-					return CodeMirror.Pass
-				indentUnit = cm.getOption("indentUnit")
-				getYoSpaceCount = (head) ->
-					# Use preceding to determine what room is taken by tabs
-					preceding = cm.getRange {line:head.line, ch:0}, head
-					tabCount = 0
-					tabreg = /\t/g
-					while(tabreg.exec preceding)
-						tabCount++
-					return indentUnit - (head.ch + tabCount*(indentUnit - 1)) % indentUnit
-				makeYoSpaces = (spaceCount) ->
-					spaces = ""
-					for [1..spaceCount]
-						spaces += " "
-					return spaces
-				putYoSpacesHere = (range) ->
-					{anchor, head} = range
-					if anchor.line isnt head.line or anchor.ch isnt head.ch
-						for line in [anchor.line..head.line]
-							curLine = cm.getLine(line)
-							curPos = {line, ch:0}
-							cm.replaceRange makeYoSpaces(indentUnit), curPos, curPos
-						#anchor.ch += indentUnit
-						#head.ch += indentUnit
-					else
-						cm.replaceRange makeYoSpaces(getYoSpaceCount(head)), anchor, head
-				cm.doc.sel.ranges.forEach putYoSpacesHere
-			editor.coffeescript = CodeMirror.fromTextArea document.getElementById("cm-coffeescript"), {
-				mode: "coffeescript"
-				tabMode: "indent"
-				useTabs: true
-				indentWithTabs: false
-				indentUnit: 2
-				theme: "elegant"
-				styleSelectedText: true
-				lineNumbers: true
-				autoCloseBrackets: true
-				showCursorWhenSelecting: true
-				autofocus: true
-				extraKeys:
-					"Tab" : checkToUseSpacesInsteadofTabs
-					"Ctrl-Enter": (cm)->
-						preview(cm)
-			}
-			editor.javascript = CodeMirror.fromTextArea document.getElementById("cm-javascript"), {
-				mode: "javascript"
-				styleSelectedText: true
-				showCursorWhenSelecting: true
-				cursorBlinkRate: 0
-				readOnly: true
-			}
-			editor.compile = ->
-				source = editor.coffeescript.doc.getValue()
-				editor.compiledJS = ""
-				try
-					editor.compiledJS = CoffeeScript.compile source, bare: on
-					editor.javascript.doc.setValue(editor.compiledJS)
-					$('#error').hide()
-					editor.errorHandler null
-				catch {location, message}
-					if location?
-						message = "Error on line #{location.first_line + 1}: #{message}"
-					$('#error').text(message).show()
-					editor.errorHandler {location, message}
-			editor.currentError = null
-			editor.errorHandler = (err) ->
-				editor.currentError.clear() if editor.currentError and editor.currentError.clear
-				editor.currentError = null
-				if err
-					err = err.location
-					if err.first_column is err.last_column and err.first_line is err.last_line
-						editor.currentError = editor.coffeescript.setBookmark(
-							{line:err.first_line, ch:err.first_column},
-							{widget:editor.makeWidget()}
-						)
-					else	
-						editor.currentError = editor.coffeescript.markText(
-							{line:err.first_line, ch:err.first_column},
-							{line:err.last_line,  ch:err.last_column},
-							{className:"cm-error"}
-						)
-			editor.makeWidget= ->
-				widget = document.createElement("span")
-				widget.style.borderLeft = "1px solid rgba(255,50,50,.6)"
-				widget.style.borderRight = "1px solid rgba(255,120,120,.6)"
-				widget.style.marginLeft = "-1px"
-				widget.style.marginRight = "-1px"
-				widget
-			editor.run = ->
-				script = document.createElement("script");
-				script.innerHTML = editor.compiledJS
-				$("#compilation").html("").append(script)
-			editor.store = ->
-				if Storage?
-					sessionStorage.code = editor.coffeescript.getValue()
-				else
-					return false
-			editor.storeLibraries = ->
-				if Storage?
-					localStorage.libraries = editor.getDistinctArray(editor.libraries).join ','
-				else
-					return false
-			editor.refresh = ->
-				location.href = location.href.replace /#.+$/, ''
-			editor.coffeescript.on "change", ->
-				editor.compile()
-				editor.store()
-			editor.libraries = []
-			editor.scriptsLoading = 0
-			editor.que = ()->
-				editor.scriptsLoading++
-				return (success, url)->
-					editor.scriptsLoading--
-					if success
-						Say "<span style='color:green'><a href='#{url}'>#{url}</a> loaded.</span>"
-					else
-						Say "<span style='color:red'><a href='#{url}'>#{url}</a> failed to load.</span>"
-					if editor.scriptsLoading is 0
-						Say "All scripts are loaded"
+      editor.codeSplitter.on 'resize', (e) ->
+        editor.coffeescript.refresh()
+        editor.javascript.refresh()
+      checkToUseSpacesInsteadofTabs = (cm) ->
+        if(cm.getOption("indentWithTabs"))
+          return CodeMirror.Pass
+        indentUnit = cm.getOption("indentUnit")
+        getYoSpaceCount = (head) ->
+          # Use preceding to determine what room is taken by tabs
+          preceding = cm.getRange {line:head.line, ch:0}, head
+          tabCount = 0
+          tabreg = /\t/g
+          while(tabreg.exec preceding)
+            tabCount++
+          return indentUnit - (head.ch + tabCount*(indentUnit - 1)) % indentUnit
+        makeYoSpaces = (spaceCount) ->
+          spaces = ""
+          for [1..spaceCount]
+            spaces += " "
+          return spaces
+        putYoSpacesHere = (range) ->
+          {anchor, head} = range
+          if anchor.line isnt head.line and anchor.ch isnt head.ch
+            for line in [anchor.line...head.line]
+              curLine = cm.getLine(line)
+              curPos = {line, ch:0}
+              cm.replaceRange makeYoSpaces(indentUnit), curPos, curPos
+            #anchor.ch += indentUnit
+            #head.ch += indentUnit
+          else
+            cm.replaceRange makeYoSpaces(getYoSpaceCount(head)), anchor, head
+        cm.doc.sel.ranges.forEach putYoSpacesHere
+      editor.coffeescript = CodeMirror.fromTextArea document.getElementById("cm-coffeescript"), {
+        mode: "coffeescript"
+        tabMode: "indent"
+        useTabs: true
+        indentWithTabs: false
+        indentUnit: 2
+        theme: "elegant"
+        styleSelectedText: true
+        lineNumbers: true
+        autoCloseBrackets: true
+        showCursorWhenSelecting: true
+        autofocus: true
+        keyMap: "sublime"
+        extraKeys:
+          "Tab" : checkToUseSpacesInsteadofTabs
+          "Ctrl-Enter": ->
+            editor.run()
+      }
+      editor.javascript = CodeMirror.fromTextArea document.getElementById("cm-javascript"), {
+        mode: "javascript"
+        styleSelectedText: true
+        showCursorWhenSelecting: true
+        cursorBlinkRate: 0
+        keyMap: "sublime"
+        readOnly: true
+      }
+      editor.compile = ->
+        source = editor.coffeescript.doc.getValue()
+        editor.compiledJS = ""
+        try
+          editor.compiledJS = CoffeeScript.compile source, bare: on
+          editor.javascript.doc.setValue(editor.compiledJS)
+          $('#error').hide()
+          editor.errorHandler null
+        catch {location, message}
+          if location?
+            message = "Error on line #{location.first_line + 1}: #{message}"
+          $('#error').text(message).show()
+          editor.errorHandler {location, message}
+      editor.currentError = null
+      editor.errorHandler = (err) ->
+        editor.currentError.clear() if editor.currentError and editor.currentError.clear
+        editor.currentError = null
+        if err
+          err = err.location
+          if err.first_column is err.last_column and err.first_line is err.last_line
+            editor.currentError = editor.coffeescript.setBookmark(
+              {line:err.first_line, ch:err.first_column},
+              {widget:editor.makeWidget()}
+            )
+          else  
+            editor.currentError = editor.coffeescript.markText(
+              {line:err.first_line, ch:err.first_column},
+              {line:err.last_line,  ch:err.last_column},
+              {className:"cm-error"}
+            )
+      editor.makeWidget= ->
+        widget = document.createElement("span")
+        widget.style.borderLeft = "1px solid rgba(255,50,50,.6)"
+        widget.style.borderRight = "1px solid rgba(255,120,120,.6)"
+        widget.style.marginLeft = "-1px"
+        widget.style.marginRight = "-1px"
+        widget
+      editor.run = ->
+        script = document.createElement("script");
+        script.innerHTML = editor.compiledJS
+        $("#compilation").html("").append(script)
+      editor.store = ->
+        if Storage?
+          sessionStorage.code = editor.coffeescript.getValue()
+        else
+          return false
+      editor.storeLibraries = ->
+        if Storage?
+          localStorage.libraries = editor.getDistinctArray(editor.libraries).join ','
+        else
+          return false
+      editor.refresh = ->
+        location.href = location.href.replace /#.+$/, ''
+      editor.coffeescript.on "change", ->
+        editor.compile()
+        editor.store()
+      editor.libraries = []
+      editor.scriptsLoading = 0
+      editor.que = ()->
+        editor.scriptsLoading++
+        return (success, url)->
+          editor.scriptsLoading--
+          if success
+            Say "<span style='color:green'><a href='#{url}'>#{url}</a> loaded.</span>"
+          else
+            Say "<span style='color:red'><a href='#{url}'>#{url}</a> failed to load.</span>"
+          if editor.scriptsLoading is 0
+            Say "All scripts are loaded"
 
-			editor.addLibrary = (siblingelement)->
-				urlInput = $(siblingelement.parentNode).find("input")
-				url = urlInput.val()
-				urlInput.val("")
-				editor.addLibraryFromUrl url
+      editor.addLibrary = (siblingelement)->
+        urlInput = $(siblingelement.parentNode).find("input")
+        url = urlInput.val()
+        urlInput.val("")
+        editor.addLibraryFromUrl url
 
 
-			editor.addLibraryFromUrl = (url)->
-				editor.loadLibrary(url)
-				editor.libraries.push url
-				editor.libraries = editor.getDistinctArray editor.libraries
-				localStorage.libraries = editor.libraries.join(',')
-				libraryli = document.createElement 'li'
-				hex = Math.random() * 0xFFFFFF
-				libraryli.innerHTML = """
-					<a id='lib#{hex.toString()}' href='#{url}'>
-						#{(url.match /([^\/]+\.js$)/)[1]}
-					</a>
-					<span>-</span>
-				"""
-				$('.dropdown.libraries ul').append(libraryli).find('span').click editor.remLibrary
+      editor.addLibraryFromUrl = (url)->
+        editor.loadLibrary(url)
+        editor.libraries.push url
+        editor.libraries = editor.getDistinctArray editor.libraries
+        localStorage.libraries = editor.libraries.join(',')
+        libraryli = document.createElement 'li'
+        hex = Math.random() * 0xFFFFFF
+        libraryli.innerHTML = """
+          <a id='lib#{hex.toString()}' href='#{url}'>
+            #{(url.match /([^\/]+\.js$)/)[1]}
+          </a>
+          <span>-</span>
+        """
+        $('.dropdown.libraries ul').append(libraryli).find('span').click editor.remLibrary
 
-			editor.remLibrary = (event)->
-				liUrl = $(event.target).parent()
-				url = liUrl.find('a').attr('href')
-				liUrl.remove()
-				newLibs = []
-				for lib in editor.libraries
-					if lib isnt url
-						newLibs.push lib
-				editor.libraries = newLibs
-				editor.storeLibraries()
-				editor.refresh()
+      editor.remLibrary = (event)->
+        liUrl = $(event.target).parent()
+        url = liUrl.find('a').attr('href')
+        liUrl.remove()
+        newLibs = []
+        for lib in editor.libraries
+          if lib isnt url
+            newLibs.push lib
+        editor.libraries = newLibs
+        editor.storeLibraries()
+        editor.refresh()
 
-			editor.loadLibrary = (libURL) ->
-				que = editor.que()
-				$.getScript(libURL).done(()->
-					que(true,libURL)
-				).fail () ->
-					console.log arguments
-					que(false,libURL)
+      editor.loadLibrary = (libURL) ->
+        que = editor.que()
+        $.getScript(libURL).done(()->
+          que(true,libURL)
+        ).fail () ->
+          console.log arguments
+          que(false,libURL)
 
-			editor.share = ->
-				window.prompt "Link to share: (Ctrl-C, Enter)", location.href.replace(/#.+$/, '') + '#' + encodeURIComponent editor.coffeescript.getValue()
-			editor.getDistinctArray = (arr) ->
-				dups = {}
-				arr.filter (el)->
-					hash = el.valueOf()
-					isDup = dups[hash]
-					dups[hash] = true
-					return !isDup
+      editor.share = ->
+        window.prompt "Link to share: (Ctrl-C, Enter)", location.href.replace(/#.+$/, '') + '#' + encodeURIComponent editor.coffeescript.getValue()
+      editor.getDistinctArray = (arr) ->
+        dups = {}
+        arr.filter (el)->
+          hash = el.valueOf()
+          isDup = dups[hash]
+          dups[hash] = true
+          return !isDup
 
-			editor.setPremade = (premadeName) ->
-				@coffeescript.setValue(premade[premadeName])
-			premade = {
-				"Fruit Class":"""
+      editor.setPremade = (premadeName) ->
+        @coffeescript.setValue(premade[premadeName])
+      premade = {
+        "Fruit Class":"""
 class Fruit
   constructor: (@name) ->
 
@@ -329,7 +346,7 @@ apple = new Fruit(\"Apple\")
 
 apple.eat()
 """
-				"Extending Fruit Class": """
+        "Extending Fruit Class": """
 class Fruit
   constructor: (@name) ->
 
@@ -355,29 +372,39 @@ apple.observe()
 
 apple.eatIfColor(\"red\")
 """
-			}
-			if Storage? and sessionStorage.code
-				editor.coffeescript.setValue sessionStorage.code
+        "Array Iteration": """
+nums = [1..10] # [1,2,3,4,5,6,7,8,9,10]
 
-			if Storage? and localStorage.libraries
-				editor.libraries = editor.getDistinctArray localStorage.libraries.split ','
-				for libURL in editor.libraries
-					editor.addLibraryFromUrl(libURL)
+for num in nums when num%2 is 0
+  Say \"Even: \" + num
 
-			if location.href.match /#.+/
-				editor.coffeescript.setValue decodeURIComponent location.href.replace /^.+?#/, ''
-				editor.refresh() if editor.store()
-			editor.compile()
-		</script>
-		<script>
-			Say = function(o){
-				console.log(o)
-				$("#info").append(o.toString() + "\n")
-			}
-			Clear = function(){
-				$("#info").html('')
-			}
-		</script>
-	<script src="temp.min.js"></script></footer>
+for num in nums[1..3]
+  Say \"Sliced: \" + num
+"""
+
+      }
+      if Storage? and sessionStorage.code
+        editor.coffeescript.setValue sessionStorage.code
+
+      if Storage? and localStorage.libraries
+        editor.libraries = editor.getDistinctArray localStorage.libraries.split ','
+        for libURL in editor.libraries
+          editor.addLibraryFromUrl(libURL)
+
+      if location.href.match /#.+/
+        editor.coffeescript.setValue decodeURIComponent location.href.replace /^.+?#/, ''
+        editor.refresh() if editor.store()
+      editor.compile()
+    </script>
+    <script>
+      Say = function(o){
+        console.log(o)
+        $("#info").append(o.toString() + "\n")
+      }
+      Clear = function(){
+        $("#info").html('')
+      }
+    </script>
+  <script src="temp.min.js"></script></footer>
 </body>
 </html>

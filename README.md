@@ -13,3 +13,15 @@ The editor comes with a prebuilt `Say(object)` function that will print the `oje
 <p align="center">
   <a href="http://zombiehippie.github.io/Quick-Test-CoffeeScript/">Launch Quick-Test-CoffeeScript</a>
 </p>
+
+## Forking
+1. Submodules
+  `git submodule init`
+  `git submodule update`
+2. jQuery (with git and npm installed for Win)
+  (from jquery/readme.md)
+  `cd lib/jQuery`
+  `npm run build`
+3. Build Quick Test CoffeeScript (with coffeescript installed globally)
+  `cd ../../` (Now in root dir of repo)
+  `cake build`
