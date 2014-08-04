@@ -1,6 +1,6 @@
 [submodule "lib/CodeMirror"]
 	path = lib/CodeMirror
-	url = https://github.com/marijnh/CodeMirror.git
+	url = https://github.com/ZombieHippie/CodeMirror.git
 [submodule "lib/Touch-Splitter-jQuery"]
 	path = lib/Touch-Splitter-jQuery
 	url = https://github.com/ZombieHippie/Touch-Splitter-jQuery.git
