@@ -1,6 +1,8 @@
 Quick-Test-CoffeeScript
 =======================
 
+![screenshot](https://cloud.githubusercontent.com/assets/2925395/7991892/29e1eaac-0ac1-11e5-84f5-cc3ffe22929b.png)
+
 Quickly test CoffeeScript and witness the javascript output
 
 This is basically a more advanced version of the Try CoffeeScript editor on [coffeescript.org](http://coffeescript.org/#try)
