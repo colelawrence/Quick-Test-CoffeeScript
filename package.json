@@ -10,7 +10,7 @@
     "coffee-loader": "^0.7.2",
     "coffee-script": "jashkenas/coffeescript#1.9.3",
     "jquery": "~2.1",
-    "touch-splitter-jquery": "0.4.2",
+    "touch-splitter-jquery": "~0.5",
     "webpack": "~1.9",
     "extract-text-webpack-plugin": "latest",
     "css-loader": "latest"
