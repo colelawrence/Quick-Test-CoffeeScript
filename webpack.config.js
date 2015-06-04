@@ -20,8 +20,8 @@ module.exports = {
     extensions: ["", ".web.coffee", ".web.js", ".coffee", ".js"]
   },
   plugins: [
-    new ExtractTextPlugin("styles.css", { allChunks: true }),
-    new webpack.optimize.UglifyJsPlugin({
+    new ExtractTextPlugin("styles.css", { allChunks: true })
+    , new webpack.optimize.UglifyJsPlugin({
       mangle: {
         except: ['$', 'exports', 'require']
       }

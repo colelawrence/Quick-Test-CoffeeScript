@@ -115,9 +115,11 @@ module.exports = ->
     widget.style.marginRight = "-1px"
     widget
   editor.run = ->
-    script = document.createElement("script");
+    script = document.createElement("script")
     script.innerHTML = editor.compiledJS
-    $("#compilation").html("").append(script)
+    script.id = "compilation"
+    $("#compilation").remove()
+    document.body.appendChild script
   editor.store = ->
     if Storage?
       sessionStorage.code = editor.coffeescript.getValue()
@@ -135,7 +137,7 @@ module.exports = ->
     editor.store()
   editor.libraries = []
   editor.scriptsLoading = 0
-  editor.que = ()->
+  editor.que = ->
     editor.scriptsLoading++
     return (success, url)->
       editor.scriptsLoading--
@@ -151,7 +153,6 @@ module.exports = ->
     url = urlInput.val()
     urlInput.val("")
     editor.addLibraryFromUrl url
-
 
   editor.addLibraryFromUrl = (url)->
     editor.loadLibrary(url)

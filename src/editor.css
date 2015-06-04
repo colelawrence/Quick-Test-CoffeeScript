@@ -1,29 +1,30 @@
-html,body,#code-splitter,.CodeMirror{
+html,body,#code-splitter,#code-splitter .CodeMirror{
   width:100%;
   height:100%;
   margin:0;
 }
 /* Styles that I like in ACE and Sublime */
-.CodeMirror {
+#code-splitter .CodeMirror pre,
+#code-splitter .CodeMirror .CodeMirror-linenumber {
   font-family: 'source-code-pro', 'Monaco', 'Menlo', 'Ubuntu Mono', 'Consolas', monospace;
   font-size: 16px;
   line-height: 1.3em;
 }
-.CodeMirror:hover {
+#code-splitter .CodeMirror:hover {
   cursor: text;
 }
-.CodeMirror .cm-matchhighlight:not(.CodeMirror-selectedtext) {
+#code-splitter .CodeMirror .cm-matchhighlight:not(.CodeMirror-selectedtext) {
   outline: 1px solid #bbb;
 }
-.CodeMirror-selected {
+#code-splitter .CodeMirror-selected {
   background-color: #333 !important;
 }
-.CodeMirror-selectedtext {
+#code-splitter .CodeMirror-selectedtext {
   color: #eee !important;
   text-decoration: none !important;
   font-style: normal !important;
 }
-.CodeMirror-focused div.CodeMirror-cursor {
+#code-splitter .CodeMirror-focused div.CodeMirror-cursor {
   /* Whatever your cursor color is: */
   border-right: 1px solid black;
 }
@@ -32,16 +33,22 @@ html,body,#code-splitter,.CodeMirror{
 }
 .TouchSplitter.hTS{overflow:visible;}
 .TouchSplitter .splitter-bar{opacity:0;}
-.CodeMirror{box-shadow:0 0 12px rgba(0,0,0,0.2);}
+#code-splitter .CodeMirror{box-shadow:0 0 12px rgba(0,0,0,0.2);}
 
-.CodeMirror:hover{cursor:text;}
-.CodeMirror-gutters:hover{cursor:default;}
+#code-splitter .CodeMirror:hover{cursor:text;}
+#code-splitter .CodeMirror-gutters:hover{cursor:default;}
 #output-splitter {
   position:absolute;
   top:42px;
   bottom:0;
   left:0;
   right:0;
+}
+#output pre {
+  -webkit-user-select: initial;
+  -moz-user-select: initial;
+  -ms-user-select: initial;
+  user-select: initial;
 }
 .cm-s-solarized .CodeMirror-gutters{box-shadow: none}
 .splitter-bar{
