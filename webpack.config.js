@@ -1,3 +1,4 @@
+var webpack = require("webpack");
 var ExtractTextPlugin = require("extract-text-webpack-plugin");
 module.exports = {
 	entry: './webpack-entry.js',
@@ -19,6 +20,11 @@ module.exports = {
     extensions: ["", ".web.coffee", ".web.js", ".coffee", ".js"]
   },
   plugins: [
-    new ExtractTextPlugin("styles.css", { allChunks: true })
+    new ExtractTextPlugin("styles.css", { allChunks: true }),
+    new webpack.optimize.UglifyJsPlugin({
+      mangle: {
+        except: ['$', 'exports', 'require']
+      }
+    })
   ]
 };

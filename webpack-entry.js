@@ -1,7 +1,7 @@
+var setup = require("./src/editor.coffee"),
+  $ = require("jquery");
 
-setup = require("./src/editor.coffee")
 require("./src/editor.css")
-$ = require("jquery")
 
 window.Say = function(o){
   console.log.apply(console, arguments)
