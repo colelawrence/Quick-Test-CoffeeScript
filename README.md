@@ -12,7 +12,7 @@ This editor is more functional because it embeds compiled javascript directly in
 The editor comes with a prebuilt `Say(object)` function that will print the `object.toString()` to an output area on the webpage, and a complimentary `Clear()` function for clearing the output window.
 
 <p align="center">
-  <a href="http://zombiehippie.github.io/Quick-Test-CoffeeScript/">Launch Quick-Test-CoffeeScript</a>
+  <a href="http://colelawrence.github.io/Quick-Test-CoffeeScript/">Launch Quick-Test-CoffeeScript</a>
 </p>
 
 ## Building
